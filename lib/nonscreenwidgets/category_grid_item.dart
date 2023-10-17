@@ -5,15 +5,17 @@ class CategoryGridItem extends StatelessWidget {
   const CategoryGridItem({
     super.key,
     required this.category,
+    required this.onSelectCategory,
   });
 
   final Category category;
+  final void Function() onSelectCategory;
 
   @override
   Widget build(BuildContext context) {
     // make Container tappable; alternative to GestureDetector (which does not support feedback)
     return InkWell(
-      onTap: () {},
+      onTap: onSelectCategory,
       // applies only to the tapped (held down) state; the original widget is not altered
       borderRadius: BorderRadius.circular(16),
       // colour rendered when tapped

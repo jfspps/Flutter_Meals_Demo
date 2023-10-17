@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:meals/data/dummy_data.dart';
 import 'package:meals/nonscreenwidgets/category_grid_item.dart';
+import 'package:meals/screenwidgets/meals.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
+
+  void _selectCategory(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => const MealsScreen(title: 'Some title', meals: []),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +31,13 @@ class CategoriesScreen extends StatelessWidget {
         ),
         children: [
           for (final category in availableCategories)
-            CategoryGridItem(category: category),
+            CategoryGridItem(
+              category: category,
+              // pass _selectCategory as CategoryGridItem's onSelectCategory
+              onSelectCategory: () {
+                _selectCategory(context);
+              },
+            ),
         ],
       ),
     );

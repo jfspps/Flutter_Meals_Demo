@@ -16,7 +16,13 @@ class MealsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget pageContent = ListView.builder(
       itemCount: meals.length,
-      itemBuilder: (context, index) => Text(meals[index].title),
+      itemBuilder: (
+        context,
+        index,
+      ) =>
+          Text(
+        meals[index].title,
+      ),
     );
 
     if (meals.isEmpty) {
