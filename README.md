@@ -20,3 +20,9 @@ samples, guidance on mobile development, and a full API reference.
 Google fonts were added with the command ```flutter pub add google_fonts```, which retrieves the
 package from [pub.dev](https://pub.dev/). This command automatically updates the [pubspec.yaml](pubspec.yaml)
 dependencies list.
+
+### Transparent Image
+
+The [transparent image plugin](https://pub.dev/packages/transparent_image) is used as part of the
+[meal item](./lib/nonscreenwidgets/meal_item.dart) transition (onTap). Use the command
+```flutter pub add transparent_image```.
