@@ -20,12 +20,30 @@ class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Meal> favouriteMeals = [];
 
-  // this is passed a couple of times in succession to child widgets
+  // workaround for the star icon not reflecting the favourite status
+  void _showInfoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
+  // this is passed a couple of times in succession to child widgets;
+  // necessary to update the state of the list called from other widgets
   void _toggleFavouriteStatus(Meal meal) {
     if (favouriteMeals.contains(meal)) {
-      favouriteMeals.remove(meal);
+      setState(() {
+        favouriteMeals.remove(meal);
+        _showInfoMessage('Removed meal from favourites');
+      });
     } else {
-      favouriteMeals.add(meal);
+      setState(() {
+        favouriteMeals.add(meal);
+        _showInfoMessage('Added meal to favourites');
+      });
     }
   }
 
@@ -46,7 +64,7 @@ class _TabsScreenState extends State<TabsScreen> {
     if (_selectedPageIndex == 1) {
       // with a null title, activePage is a Center widget (not a Scaffold) and...
       activePage = MealsScreen(
-        meals: [],
+        meals: favouriteMeals,
         toggleFavourite: _toggleFavouriteStatus,
       );
       // ...TabsScreen is responsible for setting the title
