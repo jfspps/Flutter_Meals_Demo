@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals/nonscreenwidgets/main_drawer.dart';
 import 'package:meals/screenwidgets/categories.dart';
 import 'package:meals/screenwidgets/meals.dart';
 
@@ -75,6 +76,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
+      drawer: const MainDrawer(),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         // onTap expects an int, representing the BottomNavigationBar index; based on
