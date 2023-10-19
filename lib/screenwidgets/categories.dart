@@ -4,9 +4,19 @@ import 'package:meals/model/category.dart';
 import 'package:meals/nonscreenwidgets/category_grid_item.dart';
 import 'package:meals/screenwidgets/meals.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
+import '../model/meal.dart';
 
+class CategoriesScreen extends StatelessWidget {
+
+  /// Composes a GridView widget of recipe categories
+  const CategoriesScreen({super.key, required this.toggleFavourite});
+
+  // daisy-chaining TabsScreen function to Meals to MealDetailsScreen;
+  // this is not the preferred pattern for app-wide status and only used here for demo
+  // purposes
+  final void Function(Meal meal) toggleFavourite;
+
+  /// Composes a Scaffold widget for the given category
   void _selectCategory(BuildContext context, Category category) {
     // build a list of meals based on the category id (the meal.categories is
     // effectively a list of category FKs)
@@ -20,6 +30,7 @@ class CategoriesScreen extends StatelessWidget {
         builder: (ctx) => MealsScreen(
           title: category.title,
           meals: filteredMealList,
+          toggleFavourite: toggleFavourite,
         ),
       ),
     );

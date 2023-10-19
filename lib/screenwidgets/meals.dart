@@ -5,15 +5,24 @@ import 'package:meals/screenwidgets/meal_details.dart';
 import '../model/meal.dart';
 
 class MealsScreen extends StatelessWidget {
+
+  /// Composes either a Center widget if title is null, or Scaffold widget
+  /// otherwise
   const MealsScreen({
     super.key,
     this.title,
     required this.meals,
+    required this.toggleFavourite
   });
 
   // allow other parent widgets to handle the title
   final String? title;
   final List<Meal> meals;
+
+  // daisy-chaining TabsScreen function to Meals to MealDetailsScreen;
+  // this is not the preferred pattern for app-wide status and only used here for demo
+  // purposes
+  final void Function(Meal meal) toggleFavourite;
 
   void navigateToMealDetail(BuildContext context, Meal meal) {
     // calling push() without pop() means this MealsScreen is recorded as the last
@@ -22,6 +31,7 @@ class MealsScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (ctx) => MealDetailsScreen(
           meal: meal,
+          toggleFavourite: toggleFavourite,
         ),
       ),
     );

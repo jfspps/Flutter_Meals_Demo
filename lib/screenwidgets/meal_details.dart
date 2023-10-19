@@ -3,15 +3,28 @@ import 'package:flutter/material.dart';
 import '../model/meal.dart';
 
 class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({super.key, required this.meal});
+  const MealDetailsScreen({super.key, required this.meal, required this.toggleFavourite});
 
   final Meal meal;
+
+  // daisy-chaining TabsScreen function to Meals to MealDetailsScreen;
+  // this is not the preferred pattern for app-wide status and only used here for demo
+  // purposes
+  final void Function(Meal meal) toggleFavourite;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(meal.title),
+          actions: [
+            IconButton(
+              onPressed: () {
+                toggleFavourite(meal);
+              },
+              icon: Icon(Icons.star),
+            ),
+          ],
         ),
         // make this scrollable
         body: SingleChildScrollView(

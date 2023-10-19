@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:meals/screenwidgets/categories.dart';
 import 'package:meals/screenwidgets/meals.dart';
 
+import '../model/meal.dart';
+
+/// A stateful widget that renders a page as a Scaffold widget based on the
+/// selected page's index. The latter is updated via BottomNavigationBar.onTap.
 class TabsScreen extends StatefulWidget {
+  /// Composes a Scaffold widget
   const TabsScreen({super.key});
 
   @override
@@ -13,6 +18,16 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
+  final List<Meal> favouriteMeals = [];
+
+  // this is passed a couple of times in succession to child widgets
+  void _toggleFavouriteStatus(Meal meal) {
+    if (favouriteMeals.contains(meal)) {
+      favouriteMeals.remove(meal);
+    } else {
+      favouriteMeals.add(meal);
+    }
+  }
 
   void _selectPage(int index) {
     setState(() {
@@ -22,12 +37,18 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = const CategoriesScreen();
+    // set the defaults on startup
+    Widget activePage = CategoriesScreen(
+      toggleFavourite: _toggleFavouriteStatus,
+    );
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
       // with a null title, activePage is a Center widget (not a Scaffold) and...
-      activePage = const MealsScreen(meals: []);
+      activePage = MealsScreen(
+        meals: [],
+        toggleFavourite: _toggleFavouriteStatus,
+      );
       // ...TabsScreen is responsible for setting the title
       activePageTitle = 'Favourites';
     }
@@ -37,7 +58,6 @@ class _TabsScreenState extends State<TabsScreen> {
         title: Text(activePageTitle),
       ),
       body: activePage,
-      // the tabIndex is an int already part of Flutter's BottomNavigationBar
       bottomNavigationBar: BottomNavigationBar(
         // onTap expects an int, representing the BottomNavigationBar index; based on
         // _selectPage(), this eventually updates _selectedPageIndex
