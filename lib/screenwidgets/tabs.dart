@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals/nonscreenwidgets/main_drawer.dart';
 import 'package:meals/screenwidgets/categories.dart';
+import 'package:meals/screenwidgets/filters.dart';
 import 'package:meals/screenwidgets/meals.dart';
 
 import '../model/meal.dart';
@@ -55,11 +56,16 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _setScreen(String identifier) {
-    if (identifier == 'filters'){
+    // without this, the filters screen back button returns the user to the drawer;
+    // if meals_categories was chosen then this just closes the drawer
+    Navigator.of(context).pop();
 
-    } else {
-      // chose 'Meals Categories' and already on TabsScreen so just close the drawer
-      Navigator.of(context).pop();
+    if (identifier == 'filters') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const FiltersScreen(),
+        ),
+      );
     }
   }
 

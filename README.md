@@ -26,3 +26,11 @@ dependencies list.
 The [transparent image plugin](https://pub.dev/packages/transparent_image) is used as part of the
 [meal item](./lib/nonscreenwidgets/meal_item.dart) transition (onTap). Use the command
 ```flutter pub add transparent_image```.
+
+### Stack oof pages
+
+The Navigator push() method adds to the stack of pages and preserves the sequence of pages viewed,
+making the back button behave as normal.
+
+The Navigator pushReplacement() method removes the current page from the stack and adds the new
+page. The back button behaviour then differs.

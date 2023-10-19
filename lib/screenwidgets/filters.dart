@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meals/nonscreenwidgets/main_drawer.dart';
+import 'package:meals/screenwidgets/tabs.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key});
@@ -17,6 +19,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Filters'),
+      ),
+      // gives the user the chance to navigate to the meal categories page
+      drawer: MainDrawer(
+        onSelectScreen: (identifier) {
+          Navigator.of(context).pop();
+
+          if (identifier == 'meals_categories') {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => const TabsScreen(),
+              ),
+            );
+          }
+        },
       ),
       body: Column(
         children: [
