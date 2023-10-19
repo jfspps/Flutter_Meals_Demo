@@ -7,11 +7,12 @@ import '../model/meal.dart';
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
     super.key,
-    required this.title,
+    this.title,
     required this.meals,
   });
 
-  final String title;
+  // allow other parent widgets to handle the title
+  final String? title;
   final List<Meal> meals;
 
   void navigateToMealDetail(BuildContext context, Meal meal) {
@@ -64,9 +65,14 @@ class MealsScreen extends StatelessWidget {
       );
     }
 
+    // deduce Widget returned based on title
+    if (title == null){
+      return pageContent;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: pageContent,
     );
