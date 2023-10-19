@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals/nonscreenwidgets/meal_item.dart';
+import 'package:meals/screenwidgets/meal_details.dart';
 
 import '../model/meal.dart';
 
@@ -13,11 +14,28 @@ class MealsScreen extends StatelessWidget {
   final String title;
   final List<Meal> meals;
 
+  void navigateToMealDetail(BuildContext context, Meal meal) {
+    // calling push() without pop() means this MealsScreen is recorded as the last
+    // page and the back button would lead the user to MealsScreen
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => MealDetailsScreen(
+          meal: meal,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget pageContent = ListView.builder(
       itemCount: meals.length,
-      itemBuilder: (context, index) => MealItem(meal: meals[index]),
+      itemBuilder: (ctx, index) => MealItem(
+        meal: meals[index],
+        onSelectMeal: (context, meal) {
+          navigateToMealDetail(context, meal);
+        },
+      ),
     );
 
     if (meals.isEmpty) {

@@ -8,9 +8,11 @@ class MealItem extends StatelessWidget {
   const MealItem({
     super.key,
     required this.meal,
+    required this.onSelectMeal,
   });
 
   final Meal meal;
+  final void Function(BuildContext context, Meal meal) onSelectMeal;
 
   // render the enum
   String get complexityText {
@@ -35,7 +37,9 @@ class MealItem extends StatelessWidget {
       // give a shadow, lifted effect
       elevation: 2,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onSelectMeal(context, meal);
+        },
         child: Stack(
           // the first widget will be placed at the lowest layer of the page, the next overlaps that
           // and the next overlaps that, and so on
