@@ -12,7 +12,32 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenFreeSet = false;
+  bool _glutenFreeSet = false;
+  bool _lactoseFreeSet = false;
+  bool _vegetarianSet = false;
+  bool _veganSet = false;
+
+  TextStyle _buildTitleTheme(BuildContext context) {
+    return Theme.of(context)
+        .textTheme
+        .titleLarge!
+        .copyWith(color: Theme.of(context).colorScheme.onBackground);
+  }
+
+  TextStyle _buildSubtitleTheme() {
+    return Theme.of(context)
+        .textTheme
+        .labelMedium!
+        .copyWith(color: Theme.of(context).colorScheme.onBackground);
+  }
+
+  Color _buildActiveColor() {
+    return Theme.of(context).colorScheme.tertiary;
+  }
+
+  EdgeInsetsGeometry _buildPadding() {
+    return const EdgeInsets.only(left: 34, right: 22);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,29 +61,83 @@ class _FiltersScreenState extends State<FiltersScreen> {
       ),
       body: Column(
         children: [
+          // seems key here to initialise SwitchListTile via its constructor to
+          // be able to invoke setState; defining a function that returns a
+          // SwitchListTile instance (with setState called within the function)
+          // renders correctly on the UI but the filter toggle does not update on
+          // request
           SwitchListTile(
             value: _glutenFreeSet,
-            // SwitchListTile expects a boolean
-            onChanged: (isChecked) {
+            onChanged: (checked) {
               setState(() {
-                _glutenFreeSet = isChecked;
+                _glutenFreeSet = checked;
               });
             },
             title: Text(
               'Gluten-free',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
+              style: _buildTitleTheme(context),
             ),
             subtitle: Text(
-              'List Gluten free meals only',
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
+              'List gluten-free meals only',
+              style: _buildSubtitleTheme(),
             ),
-            activeColor: Theme.of(context).colorScheme.tertiary,
-            contentPadding: const EdgeInsets.only(left: 34, right: 22),
-          )
+            activeColor: _buildActiveColor(),
+            contentPadding: _buildPadding(),
+          ),
+          SwitchListTile(
+            value: _lactoseFreeSet,
+            onChanged: (checked) {
+              setState(() {
+                _lactoseFreeSet = checked;
+              });
+            },
+            title: Text(
+              'Lactose-free',
+              style: _buildTitleTheme(context),
+            ),
+            subtitle: Text(
+              'List lactose-free meals only',
+              style: _buildSubtitleTheme(),
+            ),
+            activeColor: _buildActiveColor(),
+            contentPadding: _buildPadding(),
+          ),
+          SwitchListTile(
+            value: _vegetarianSet,
+            onChanged: (checked) {
+              setState(() {
+                _vegetarianSet = checked;
+              });
+            },
+            title: Text(
+              'Vegetarian',
+              style: _buildTitleTheme(context),
+            ),
+            subtitle: Text(
+              'List vegetarian meals only',
+              style: _buildSubtitleTheme(),
+            ),
+            activeColor: _buildActiveColor(),
+            contentPadding: _buildPadding(),
+          ),
+          SwitchListTile(
+            value: _veganSet,
+            onChanged: (checked) {
+              setState(() {
+                _veganSet = checked;
+              });
+            },
+            title: Text(
+              'Vegan',
+              style: _buildTitleTheme(context),
+            ),
+            subtitle: Text(
+              'List vegan meals only',
+              style: _buildSubtitleTheme(),
+            ),
+            activeColor: _buildActiveColor(),
+            contentPadding: _buildPadding(),
+          ),
         ],
       ),
     );
