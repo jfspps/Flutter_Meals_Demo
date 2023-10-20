@@ -66,6 +66,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         // defines a Future that is called when the user leaves the current screen
         onWillPop: () async {
           // use pop() to forward data as a map to the next screen in the stack i.e. the TabsScreen
+          // through the push() method used to add FiltersScreen to the stack
           Navigator.of(context).pop({
             Filter.glutenFree: _glutenFreeSet,
             Filter.lactoseFree: _lactoseFreeSet,

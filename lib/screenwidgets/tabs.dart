@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:meals/nonscreenwidgets/main_drawer.dart';
 import 'package:meals/screenwidgets/categories.dart';
@@ -55,17 +57,23 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     // without this, the filters screen back button returns the user to the drawer;
     // if meals_categories was chosen then this just closes the drawer
     Navigator.of(context).pop();
 
     if (identifier == 'filters') {
-      Navigator.of(context).push(
+      // a FiltersScreen WillPopScope pop() method can return a future and would then be
+      // returned by this push() method; the Future<Map<Filter, bool>> is expected
+      // (Filter as keys and bool values) so the push() generic
+      // is classed
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
           builder: (ctx) => const FiltersScreen(),
         ),
       );
+
+      log('Filter: $result');
     }
   }
 
