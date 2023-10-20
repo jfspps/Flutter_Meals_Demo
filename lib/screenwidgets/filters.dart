@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:meals/nonscreenwidgets/main_drawer.dart';
 import 'package:meals/screenwidgets/tabs.dart';
 
+// available to anything that imports filters.dart e.g. tabs.dart
+enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
+
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key});
 
@@ -59,86 +62,100 @@ class _FiltersScreenState extends State<FiltersScreen> {
           }
         },
       ),
-      body: Column(
-        children: [
-          // seems key here to initialise SwitchListTile via its constructor to
-          // be able to invoke setState; defining a function that returns a
-          // SwitchListTile instance (with setState called within the function)
-          // renders correctly on the UI but the filter toggle does not update on
-          // request
-          SwitchListTile(
-            value: _glutenFreeSet,
-            onChanged: (checked) {
-              setState(() {
-                _glutenFreeSet = checked;
-              });
-            },
-            title: Text(
-              'Gluten-free',
-              style: _buildTitleTheme(context),
+      body: WillPopScope(
+        // defines a Future that is called when the user leaves the current screen
+        onWillPop: () async {
+          // use pop() to forward data as a map to the next screen in the stack i.e. the TabsScreen
+          Navigator.of(context).pop({
+            Filter.glutenFree: _glutenFreeSet,
+            Filter.lactoseFree: _lactoseFreeSet,
+            Filter.vegetarian: _vegetarianSet,
+            Filter.vegan: _veganSet
+          });
+
+          return false;
+        },
+        child: Column(
+          children: [
+            // seems key here to initialise SwitchListTile via its constructor to
+            // be able to invoke setState; defining a function that returns a
+            // SwitchListTile instance (with setState called within the function)
+            // renders correctly on the UI but the filter toggle does not update on
+            // request
+            SwitchListTile(
+              value: _glutenFreeSet,
+              onChanged: (checked) {
+                setState(() {
+                  _glutenFreeSet = checked;
+                });
+              },
+              title: Text(
+                'Gluten-free',
+                style: _buildTitleTheme(context),
+              ),
+              subtitle: Text(
+                'List gluten-free meals only',
+                style: _buildSubtitleTheme(),
+              ),
+              activeColor: _buildActiveColor(),
+              contentPadding: _buildPadding(),
             ),
-            subtitle: Text(
-              'List gluten-free meals only',
-              style: _buildSubtitleTheme(),
+            SwitchListTile(
+              value: _lactoseFreeSet,
+              onChanged: (checked) {
+                setState(() {
+                  _lactoseFreeSet = checked;
+                });
+              },
+              title: Text(
+                'Lactose-free',
+                style: _buildTitleTheme(context),
+              ),
+              subtitle: Text(
+                'List lactose-free meals only',
+                style: _buildSubtitleTheme(),
+              ),
+              activeColor: _buildActiveColor(),
+              contentPadding: _buildPadding(),
             ),
-            activeColor: _buildActiveColor(),
-            contentPadding: _buildPadding(),
-          ),
-          SwitchListTile(
-            value: _lactoseFreeSet,
-            onChanged: (checked) {
-              setState(() {
-                _lactoseFreeSet = checked;
-              });
-            },
-            title: Text(
-              'Lactose-free',
-              style: _buildTitleTheme(context),
+            SwitchListTile(
+              value: _vegetarianSet,
+              onChanged: (checked) {
+                setState(() {
+                  _vegetarianSet = checked;
+                });
+              },
+              title: Text(
+                'Vegetarian',
+                style: _buildTitleTheme(context),
+              ),
+              subtitle: Text(
+                'List vegetarian meals only',
+                style: _buildSubtitleTheme(),
+              ),
+              activeColor: _buildActiveColor(),
+              contentPadding: _buildPadding(),
             ),
-            subtitle: Text(
-              'List lactose-free meals only',
-              style: _buildSubtitleTheme(),
+            SwitchListTile(
+              value: _veganSet,
+              onChanged: (checked) {
+                setState(() {
+                  _veganSet = checked;
+                });
+              },
+              title: Text(
+                'Vegan',
+                style: _buildTitleTheme(context),
+              ),
+              subtitle: Text(
+                'List vegan meals only',
+                style: _buildSubtitleTheme(),
+              ),
+              activeColor: _buildActiveColor(),
+              contentPadding: _buildPadding(),
             ),
-            activeColor: _buildActiveColor(),
-            contentPadding: _buildPadding(),
-          ),
-          SwitchListTile(
-            value: _vegetarianSet,
-            onChanged: (checked) {
-              setState(() {
-                _vegetarianSet = checked;
-              });
-            },
-            title: Text(
-              'Vegetarian',
-              style: _buildTitleTheme(context),
-            ),
-            subtitle: Text(
-              'List vegetarian meals only',
-              style: _buildSubtitleTheme(),
-            ),
-            activeColor: _buildActiveColor(),
-            contentPadding: _buildPadding(),
-          ),
-          SwitchListTile(
-            value: _veganSet,
-            onChanged: (checked) {
-              setState(() {
-                _veganSet = checked;
-              });
-            },
-            title: Text(
-              'Vegan',
-              style: _buildTitleTheme(context),
-            ),
-            subtitle: Text(
-              'List vegan meals only',
-              style: _buildSubtitleTheme(),
-            ),
-            activeColor: _buildActiveColor(),
-            contentPadding: _buildPadding(),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
