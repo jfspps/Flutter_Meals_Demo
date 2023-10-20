@@ -6,7 +6,9 @@ import 'package:meals/screenwidgets/tabs.dart';
 enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({super.key, required this.savedFilters});
+
+  final Map<Filter, bool> savedFilters;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,6 +21,17 @@ class _FiltersScreenState extends State<FiltersScreen> {
   bool _lactoseFreeSet = false;
   bool _vegetarianSet = false;
   bool _veganSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // access Stateful variables via their State widget; initState runs before build()
+    // so setState() is not required
+    _glutenFreeSet = widget.savedFilters[Filter.glutenFree]!;
+    _lactoseFreeSet = widget.savedFilters[Filter.lactoseFree]!;
+    _vegetarianSet = widget.savedFilters[Filter.vegetarian]!;
+    _veganSet = widget.savedFilters[Filter.vegan]!;
+  }
 
   TextStyle _buildTitleTheme(BuildContext context) {
     return Theme.of(context)
@@ -63,7 +76,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
         },
       ),
       body: WillPopScope(
-        // defines a Future that is called when the user leaves the current screen
+        // defines a Future that is called when the user leaves the current screen,
+        // usually through the app or Android back button
         onWillPop: () async {
           // use pop() to forward data as a map to the next screen in the stack i.e. the TabsScreen
           // through the push() method used to add FiltersScreen to the stack

@@ -27,10 +27,17 @@ The [transparent image plugin](https://pub.dev/packages/transparent_image) is us
 [meal item](./lib/nonscreenwidgets/meal_item.dart) transition (onTap). Use the command
 ```flutter pub add transparent_image```.
 
-### Stack oof pages
+### Stack of pages
 
 The Navigator push() method adds to the stack of pages and preserves the sequence of pages viewed,
 making the back button behave as normal.
 
 The Navigator pushReplacement() method removes the current page from the stack and adds the new
 page. The back button behaviour then differs.
+
+## An alternative navigation and routing pattern
+
+For large, more deeply linked apps, developers may defer to the [named routes pattern](https://docs.flutter.dev/ui/navigation#using-named-routes) 
+though there are still some limitations e.g. the lack of support for the forward button behaviour.
+
+For small apps (most apps), the Navigator push() and pop() approach is recommended.
